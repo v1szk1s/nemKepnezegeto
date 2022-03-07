@@ -1,6 +1,6 @@
 # Képnézegető program specifikáció
 
- szerzők: Ördög Csaba, Tóth Győrgy, Ambrus Attila
+ szerzők: Ördög Csaba, Tóth György, Ambrus Attila
 
 ## Leírás:
 Ez a program egy általános célú képnézegető Javában megvalósítva.
