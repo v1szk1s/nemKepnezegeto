@@ -15,15 +15,15 @@ A program platformfüggetlen lesz, ami azt jelenti, hogy futtatható lesz a köv
 A nemKepnezegető képek között tudunk böngészni, valamint azokat megtekinteni a teljes felbontásukban.
 A menü opciók:
 
-File menüpont alatt:
+### File menüpont alatt:
 - Megnyitás:
     Ennek a gombnak a megnyomásával megjelenik egy file kiválasztó felület ahol egy, több vagy akár egész mappát meg tudunk nyitni. A megjelenített file kiválasztóban csak a támogatott formátumú képeket lehet majd kiválasztani. Ha rányomunk a megnyitás gombra ezután a nemKépnézegető betölti az adott képeket a képernyőbe, ahol azok között váltani tudunk. 
 - Mentés:
-    Ez a funkció csak akkor választható ha az adott képen valami változtatást hajtunk végre. Ez lehet bármilyen transzformáció (pl. képelforgatás, kivágás stb.)
+    Ez a funkció csak akkor választható ha az adott képen valami változtatást hajtunk végre. Ez lehet bármilyen transzformáció (pl. képelforgatás, kivágás stb.) Gomb megnyomása után megjelenik egy file kiválasztó ablak, ahol kiválaszthatuk, hogy milyen néve, valamint hova szeretnénk elmenteni az új képet. A régi kép változatlan marad, egy új filet hoz létre.
 - Kép információ:
     Itt a képről található összes információ megtalálható: méret, felbontás, file név, kiterjeszét, készítés dátuma, módosítás dátuma valamint a színkódolása.
 
-Szerkesztés menüpont alatt:
+### Szerkesztés menüpont alatt:
 - Közelítés gombbal a kép méretét növelhetjük meg gombnyomásonként 10 százalékkal.
 - Távolítás gombbal a kép méretét kicsinyíthetjük gombnyomásonként 10 százalékkal.
 - Forgatás
@@ -38,14 +38,17 @@ Szerkesztés menüpont alatt:
 - Felbontás módosítása:
     Ez az opció a kép méretarányait megtartva a képnek a felbontását változtatja. Ez hasznos lehet, ha van egy túl nagy méretű képünk, és esetleg meg van szabva, hogy mekkora mérettel rendelkezhet maximum, akkor ez a funkció igazán hasznos tud lenni.
 
-A felhaszálói felület:
 
-    A fő cél a kép megjelenítése, ebben a minimalista felhasználói felület sokat segít, hogy igazán a képre tudjunk fókuszálni.
-    A képernyó alján található egy balra mutató áttetsző nyíl, valamint egy jobbra mutató áttetsző nyíl. Ezeknek a megnyomásával a már megnyitott képek között tudunk mozogni. Egyszerre egy képet ugrunk.
-    Ha egy kép sincs megnyitva, akkor a kép helyén ki lesz írva, hogy nincs kép megnyitva, amire ha duplán rákattintunk el fog indulni a file kiválasztó ablak.
+## A felhaszálói felület:
 
-    A menüpontok alatt a képernyő tetején megjelenik a kép neve is, hogy pontosan tudhassuk melyik képet nézzük éppen.
+A fő cél a kép megjelenítése, ebben a minimalista felhasználói felület sokat segít, hogy igazán a képre tudjunk fókuszálni.
+A képernyó alján található egy balra mutató áttetsző nyíl, valamint egy jobbra mutató áttetsző nyíl. Ezeknek a megnyomásával a már megnyitott képek között tudunk mozogni. Egyszerre egy képet ugrunk.
+Ha egy kép sincs megnyitva, akkor a kép helyén ki lesz írva, hogy nincs kép megnyitva, amire ha duplán rákattintunk el fog indulni a file kiválasztó ablak.
+A menüpontok alatt a képernyő tetején megjelenik a kép neve is, hogy pontosan tudhassuk melyik képet nézzük éppen.
 
+#### Shortcuts
+    Ctrl+s Kép mentése másként
+    Ctrl+r Kép forgatása 90°-al jobbra
 
 A támogatott file formátumok:
 - jpg
@@ -55,8 +58,5 @@ A támogatott file formátumok:
 
 További file formátum támogatása a jövőben várható!
 
-## A fejlesztőknek
-    Java jdk-11
-    JavaFX
-
-A program bővíthető lesz Reflection segítségével.
+## Szükségek:
+    Java jdk-17 verzió, vagy annál újabb.
