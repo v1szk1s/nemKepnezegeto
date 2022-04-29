@@ -32,20 +32,10 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kepnezegeto.megjelenites.KezeloFeluletController">
+<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kepnezegeto.megjelenites.KezeloFeluletController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -88,21 +78,8 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="455.0" prefWidth="693.0" VBox.vgrow="ALWAYS">
          <children>
-            <Button layoutX="33.0" layoutY="67.0" mnemonicParsing="false" onMouseClicked="#fajlMegnyit" text="Fájl megnyitás" />
-            <TextField fx:id="eleresiUt" layoutX="33.0" layoutY="31.0" prefHeight="25.0" prefWidth="260.0" />
-            <ImageView fx:id="kepMegjelenit" fitHeight="286.0" fitWidth="324.0" layoutX="79.0" layoutY="220.0" pickOnBounds="true" preserveRatio="true" />
-            <Slider fx:id="forgatasMertek" layoutX="585.0" layoutY="43.0" max="180.0" min="-180.0" onInputMethodTextChanged="#valami" prefHeight="14.0" prefWidth="193.0" />
-            <Label fx:id="forgatasLabel" layoutX="648.0" layoutY="14.0" text="0" />
-            <Label layoutX="585.0" layoutY="14.0" text="Forgatás" />
-            <Button layoutX="583.0" layoutY="122.0" mnemonicParsing="false" text="Tükrözés" />
-            <Label layoutX="585.0" layoutY="67.0" text="Tükrözés" />
-            <CheckBox layoutX="585.0" layoutY="92.0" mnemonicParsing="false" text="x-tengelyre" />
-            <CheckBox layoutX="682.0" layoutY="92.0" mnemonicParsing="false" text="y-tengelyre" />
-            <Label layoutX="585.0" layoutY="162.0" text="Átméretezés" />
-            <TextField layoutX="594.0" layoutY="187.0" prefHeight="25.0" prefWidth="64.0" />
-            <TextField layoutX="682.0" layoutY="187.0" prefHeight="25.0" prefWidth="64.0" />
-            <Label layoutX="666.0" layoutY="191.0" text="X" />
-            <Button layoutX="585.0" layoutY="228.0" mnemonicParsing="false" text="Átméretetés" />
+            <Button layoutX="354.0" layoutY="275.0" mnemonicParsing="false" onMouseClicked="#fajlMegnyit" text="Fájl megnyitás" />
+            <TextField fx:id="eleresiUt" layoutX="270.0" layoutY="208.0" prefHeight="25.0" prefWidth="260.0" />
          </children>
     </AnchorPane>
   </children>
