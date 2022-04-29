@@ -1,6 +1,8 @@
 package kepnezegeto.kepek;
 
 
+import javafx.scene.image.Image;
+
 /**
  *
  */
@@ -10,8 +12,5 @@ public class KepPlugin extends Kep {
         super(s);
     }
 
-    @Override
-    public Kep parse() {
-        return null;
-    }
+
 }
