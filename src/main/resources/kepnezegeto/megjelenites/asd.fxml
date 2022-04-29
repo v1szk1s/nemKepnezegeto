@@ -91,11 +91,7 @@
             <Font size="18.0" />
           </font>
         </Label>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="220.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@39.jpg" />
-               </image>
-            </ImageView>
+            
       </children>
     </AnchorPane>
   </children>
