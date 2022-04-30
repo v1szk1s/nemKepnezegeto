@@ -4,6 +4,7 @@ module kepnezegeto.kepnezegeto {
 
     requires org.kordamp.bootstrapfx.core;
 
-    opens kepnezegeto.megjelenites to javafx.fxml;
-    exports kepnezegeto.megjelenites;
+    opens kepnezegeto;
+    opens kepnezegeto.controllers to javafx.fxml;
+
 }
