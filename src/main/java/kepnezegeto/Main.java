@@ -7,10 +7,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -25,7 +27,9 @@ import java.util.ArrayList;
 
 public class Main extends Application {
     private Stage window;
-    ObservableList<String> kepek = FXCollections.<String>observableArrayList();
+    BorderPane root;
+    private ObservableList<Image> kepek = FXCollections.<Image>observableArrayList();
+    private ImageView imageView;
     private Text text = new Text("text");
 
 
@@ -35,12 +39,22 @@ public class Main extends Application {
         //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/kepnezegeto/view/kepnezegeto.fxml"));
         init(stage);
 
-
+        kepek.addListener(new ListChangeListener<Image>() {
+            @Override
+            public void onChanged(Change<? extends Image> change) {
+                text.setText(kepek.size()+ "");
+                if(kepek.size() > 0){
+                    imageView = new ImageView(kepek.get(kepek.size()-1));
+                    root.setCenter(imageView);
+                    text.setText(kepek.get(kepek.size()-1).getUrl());
+                }
+            }
+        });
 
     }
 
     public void init(Stage window){
-        BorderPane root = new BorderPane();
+        root = new BorderPane();
         MenuBar menuBar = new MenuBar();
         Menu fileMenu = new Menu("Fájl");
         MenuItem openMenu = new MenuItem("Megnyitás");
@@ -54,16 +68,6 @@ public class Main extends Application {
         window.setResizable(false);
         window.setScene(scene);
         window.show();
-        kepek.addListener(new ListChangeListener<String>() {
-            @Override
-            public void onChanged(Change<? extends String> change) {
-                StringBuilder builder = new StringBuilder();
-                for(var s:kepek){
-                    builder.append(s + "\n");
-                }
-                text.setText(builder.toString());
-            }
-        });
         openMenu.setOnAction(e -> openFile());
 
     }
@@ -73,7 +77,7 @@ public class Main extends Application {
         fileChooser.setTitle("Képek megnyitása");
         File kep = fileChooser.showOpenDialog(window);
         if(kep != null){
-            kepek.add(kep.getAbsolutePath());
+            kepek.add(new Image(kep.toURI().toString(), 600, 0, true, false));
         }
 
     }

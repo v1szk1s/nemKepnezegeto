@@ -1,8 +1,9 @@
-package kepnezegeto.egyeb;
+package kepnezegeto.kepKezelo;
 
 import kepnezegeto.kepek.Kep;
 
 public class Kepkezelo {
+
     Kep megnyit(String utvonal){
         return null;
     }
