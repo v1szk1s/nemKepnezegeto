@@ -1,15 +1,19 @@
 package kepnezegeto.kepKezelo;
 
+import javafx.scene.image.Image;
 import kepnezegeto.kepek.Kep;
 
-public class Kepkezelo {
+import java.util.ArrayList;
 
-    Kep megnyit(String utvonal){
-        return null;
+public class Kepkezelo {
+    private ArrayList<Image> kepek;
+
+    public Kepkezelo(){
+        kepek = new ArrayList<>();
     }
 
-    void mentes(Kep kep, String utvonal){
-
+    public ArrayList<Image> getKepek(){
+        return kepek;
     }
 
 }

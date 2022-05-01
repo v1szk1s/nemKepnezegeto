@@ -7,29 +7,33 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kepnezegeto.filterek.Grayscale;
+import kepnezegeto.kepKezelo.Kepkezelo;
 import kepnezegeto.kepek.Jpg;
-
+import kepnezegeto.tranformaciok.Forgatas;
+import kepnezegeto.tranformaciok.Transzformacio;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.*;
+import javafx.embed.swing.SwingFXUtils;
 
 public class Main extends Application {
     private Stage window;
-    BorderPane root;
+    private BorderPane root;
     private ObservableList<Image> kepek = FXCollections.<Image>observableArrayList();
-    private ImageView imageView;
+    private int imageIndex = 0;
+    ImageView imageView;
     private Text text = new Text("text");
 
 
@@ -42,11 +46,9 @@ public class Main extends Application {
         kepek.addListener(new ListChangeListener<Image>() {
             @Override
             public void onChanged(Change<? extends Image> change) {
-                text.setText(kepek.size()+ "");
-                if(kepek.size() > 0){
+                if(kepek.size() > 0) {
                     imageView = new ImageView(kepek.get(kepek.size()-1));
                     root.setCenter(imageView);
-                    text.setText(kepek.get(kepek.size()-1).getUrl());
                 }
             }
         });
@@ -54,12 +56,24 @@ public class Main extends Application {
     }
 
     public void init(Stage window){
+        ArrayList<Transzformacio> transzformaciok = new ArrayList<>();
+        transzformaciok.add(new Forgatas());
+
+
         root = new BorderPane();
         MenuBar menuBar = new MenuBar();
         Menu fileMenu = new Menu("Fájl");
-        MenuItem openMenu = new MenuItem("Megnyitás");
-        fileMenu.getItems().add(openMenu);
-        menuBar.getMenus().add(fileMenu);
+        MenuItem openMenuItem = new MenuItem("Megnyitás");
+        MenuItem saveMenuItem = new MenuItem("Mentés");
+        fileMenu.getItems().addAll(openMenuItem, saveMenuItem);
+
+        Menu transzMenu = new Menu("Szerkeszt");
+        for(var t:transzformaciok){
+            transzMenu.getItems().add(new MenuItem(t.getNev()));
+        }
+
+        menuBar.getMenus().addAll(fileMenu, transzMenu);
+
         root.setTop(menuBar);
         StringBuilder builder = new StringBuilder();
         root.setCenter(text);
@@ -68,7 +82,18 @@ public class Main extends Application {
         window.setResizable(false);
         window.setScene(scene);
         window.show();
-        openMenu.setOnAction(e -> openFile());
+
+        openMenuItem.setOnAction(e -> openFile());
+        saveMenuItem.setOnAction(e -> saveFile());
+
+        for (var item:transzMenu.getItems()){
+            for(var transz:transzformaciok){
+                if(item.getText().equals(transz.getNev())){
+
+                }
+            }
+
+        }
 
     }
 
@@ -79,7 +104,25 @@ public class Main extends Application {
         if(kep != null){
             kepek.add(new Image(kep.toURI().toString(), 600, 0, true, false));
         }
+    }
 
+    public void saveFile(){
+        if (imageView == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Nincs kép!");
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.showAndWait();
+            return;
+        }
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Mentés");
+        File outputFile = fileChooser.showSaveDialog(window);
+        File ujFile = new File(outputFile.getAbsolutePath() + ".png");
+        BufferedImage bImage = SwingFXUtils.fromFXImage(imageView.getImage(), null);
+        if(outputFile != null){
+            try {
+                ImageIO.write(bImage, "png", ujFile);
+            }catch (IOException e){}
+        }
     }
 
     public static void main(String[] args) {

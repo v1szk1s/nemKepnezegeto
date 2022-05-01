@@ -2,7 +2,7 @@ package kepnezegeto.tranformaciok;
 
 import kepnezegeto.kepek.Kep;
 
-public class Atmeretezes implements Transzformalas{
+public class Atmeretezes implements Transzformacio{
     @Override
     public String getNev() {
         return "Átméretezés";

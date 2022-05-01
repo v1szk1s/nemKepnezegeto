@@ -4,7 +4,7 @@ package kepnezegeto.kepek;
 
 import javafx.scene.image.Image;
 import kepnezegeto.filterek.Filter;
-import kepnezegeto.tranformaciok.Transzformalas;
+import kepnezegeto.tranformaciok.Transzformacio;
 
 
 import java.util.ArrayList;
