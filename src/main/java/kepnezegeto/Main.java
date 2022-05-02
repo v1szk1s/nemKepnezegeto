@@ -18,9 +18,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kepnezegeto.filterek.Grayscale;
 import kepnezegeto.kepKezelo.Kepkezelo;
-import kepnezegeto.kepek.Jpg;
+import kepnezegeto.kepek.Kep;
 import kepnezegeto.tranformaciok.Forgatas;
 import kepnezegeto.tranformaciok.Transzformacio;
+import kepnezegeto.tranformaciok.Tukrozes;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -28,13 +30,14 @@ import java.util.ArrayList;
 import javax.imageio.*;
 import javafx.embed.swing.SwingFXUtils;
 
+
 public class Main extends Application {
     private Stage window;
     private BorderPane root;
-    private ObservableList<Image> kepek = FXCollections.<Image>observableArrayList();
+    private ArrayList<Kep> kepek = new ArrayList<>();
     private int imageIndex = 0;
-    ImageView imageView;
-    private Text text = new Text("text");
+    ImageView iv;
+    private Text text = new Text("Fájl menüpontban Megnyitás opcióval tudsz képet megnyitni...");
 
 
     @Override
@@ -43,22 +46,13 @@ public class Main extends Application {
         //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/kepnezegeto/view/kepnezegeto.fxml"));
         init(stage);
 
-        kepek.addListener(new ListChangeListener<Image>() {
-            @Override
-            public void onChanged(Change<? extends Image> change) {
-                if(kepek.size() > 0) {
-                    imageView = new ImageView(kepek.get(kepek.size()-1));
-                    root.setCenter(imageView);
-                }
-            }
-        });
 
     }
 
     public void init(Stage window){
         ArrayList<Transzformacio> transzformaciok = new ArrayList<>();
         transzformaciok.add(new Forgatas());
-
+        transzformaciok.add(new Tukrozes());
 
         root = new BorderPane();
         MenuBar menuBar = new MenuBar();
@@ -75,7 +69,6 @@ public class Main extends Application {
         menuBar.getMenus().addAll(fileMenu, transzMenu);
 
         root.setTop(menuBar);
-        StringBuilder builder = new StringBuilder();
         root.setCenter(text);
         Scene scene = new Scene(root, 800, 600);
         window.setTitle("Képnézegető");
@@ -89,7 +82,11 @@ public class Main extends Application {
         for (var item:transzMenu.getItems()){
             for(var transz:transzformaciok){
                 if(item.getText().equals(transz.getNev())){
-
+                    item.setOnAction(e -> {
+                        transz.transzformal(kepek.get(imageIndex-1).getFile());
+                        iv = new ImageView(kepek.get(imageIndex-1).getAsImage());
+                        root.setCenter(iv);
+                    });
                 }
             }
 
@@ -102,12 +99,15 @@ public class Main extends Application {
         fileChooser.setTitle("Képek megnyitása");
         File kep = fileChooser.showOpenDialog(window);
         if(kep != null){
-            kepek.add(new Image(kep.toURI().toString(), 600, 0, true, false));
+            kepek.add(new Kep(kep));
+            iv = new ImageView(kepek.get(imageIndex).getAsImage());
+            root.setCenter(iv);
+            imageIndex++;
         }
     }
 
     public void saveFile(){
-        if (imageView == null){
+        if (kepek.size() == 0){
             Alert alert = new Alert(Alert.AlertType.ERROR, "Nincs kép!");
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.showAndWait();
@@ -117,7 +117,7 @@ public class Main extends Application {
         fileChooser.setTitle("Mentés");
         File outputFile = fileChooser.showSaveDialog(window);
         File ujFile = new File(outputFile.getAbsolutePath() + ".png");
-        BufferedImage bImage = SwingFXUtils.fromFXImage(imageView.getImage(), null);
+        BufferedImage bImage = SwingFXUtils.fromFXImage(iv.getImage(), null);
         if(outputFile != null){
             try {
                 ImageIO.write(bImage, "png", ujFile);

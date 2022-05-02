@@ -1,6 +1,9 @@
 package kepnezegeto.tranformaciok;
 
+import javafx.scene.image.Image;
 import kepnezegeto.kepek.Kep;
+
+import java.io.File;
 
 public class Atmeretezes implements Transzformacio{
     @Override
@@ -9,7 +12,6 @@ public class Atmeretezes implements Transzformacio{
     }
 
     @Override
-    public void transzformal(Kep kep) {
-
+    public void transzformal(File kep) {
     }
 }

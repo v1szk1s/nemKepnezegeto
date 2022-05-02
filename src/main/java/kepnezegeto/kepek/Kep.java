@@ -1,24 +1,23 @@
 package kepnezegeto.kepek;
-
-
-
 import javafx.scene.image.Image;
-import kepnezegeto.filterek.Filter;
-import kepnezegeto.tranformaciok.Transzformacio;
+
+import java.io.File;
 
 
-import java.util.ArrayList;
+public class Kep{
+    private File kep;
 
-public abstract class Kep{
-    protected Image feldolgozottKep;
-    Kep(String eleresiUt){
-        feldolgozottKep = parse(eleresiUt);
+    public Kep(File kep){
+        this.kep = kep;
     }
-    private Image parse(String eleresiUt){
-        return new Image(eleresiUt);
+    public String getPath(){
+        return kep.getAbsolutePath();
     }
-    public Image createImage(){
-        return feldolgozottKep;
+    public File getFile(){
+        return kep;
+    }
+    public Image getAsImage(){
+        return new Image(kep.toURI().toString(), 600, 0, true, false);
     }
 
 }
