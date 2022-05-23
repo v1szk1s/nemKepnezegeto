@@ -26,6 +26,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Stack;
 import javax.imageio.*;
 import javafx.embed.swing.SwingFXUtils;
 
@@ -36,9 +37,11 @@ public class Main extends Application {
     private BorderPane bg;
     private Kepkezelo kepkezelo = new Kepkezelo();
     private int imageIndex = -1;
-    ImageView iv = new ImageView();
-    
-
+    private ImageView iv = new ImageView();
+    private Scene scene;
+    private MenuBar menuBar;
+    private Menu fileMenu, transzMenu, filterMenu;
+    private MenuItem openMenuItem, saveMenuItem, undoMenuItem;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -67,22 +70,25 @@ public class Main extends Application {
         
         bg = new BorderPane();
 
-        MenuBar menuBar = new MenuBar();
-        Menu fileMenu = new Menu("Fájl");
-        MenuItem openMenuItem = new MenuItem("Megnyitás");
-        MenuItem saveMenuItem = new MenuItem("Mentés");
+        menuBar = new MenuBar();
+        fileMenu = new Menu("Fájl");
+        openMenuItem = new MenuItem("Megnyitás");
+        saveMenuItem = new MenuItem("Mentés");
+        undoMenuItem = new MenuItem("Visszavonás");
+        undoMenuItem.setDisable(true);
         fileMenu.getItems().addAll(openMenuItem, saveMenuItem);
 
-        Menu transzMenu = new Menu("Szerkeszt");
+        transzMenu = new Menu("Szerkeszt");
         for(var t:transzformaciok){
             transzMenu.getItems().add(new MenuItem(t.getNev()));
         }
-        
+        transzMenu.getItems().add(undoMenuItem);
 
-        Menu filterMenu = new Menu("Filterek");
+        filterMenu = new Menu("Filterek");
         for(var t:filterek){
             filterMenu.getItems().add(new MenuItem(t.getNev()));
         }
+
 
         menuBar.getMenus().addAll(fileMenu, transzMenu, filterMenu);
         bg.setTop(menuBar);
@@ -91,7 +97,7 @@ public class Main extends Application {
         bg.setCenter(text);
         root.getChildren().add(bg);
 
-        Scene scene = new Scene(root, 1200, 800);
+        scene = new Scene(root, 1200, 800);
         window.setTitle("Képnézegető");
         window.setResizable(false);
         window.setScene(scene);
@@ -99,33 +105,50 @@ public class Main extends Application {
 
         openMenuItem.setOnAction(e -> openFile());
         saveMenuItem.setOnAction(e -> saveFile());
-
+        undoMenuItem.setOnAction(e -> undoAction());
         for (var item:transzMenu.getItems()){
             for(var transz:transzformaciok){
                 if(item.getText().equals(transz.getNev())){
                     item.setOnAction(e -> {
+                        Stack<Image> history = kepkezelo.getKepek().get(imageIndex).getHistory();
+                        if(history.size() < 10) {
+                            history.push(kepkezelo.getKep(imageIndex));
+                            undoMenuItem.setDisable(false);
+                        }
                         kepkezelo.set(imageIndex, transz.transzformal(kepkezelo.getKep(imageIndex)));
                         iv.setImage(kepkezelo.getKep(imageIndex));
                         bg.setCenter(iv);
                     });
                 }
             }
-
         }
 
         for (var item:filterMenu.getItems()){
             for(var filter:filterek){
                 if(item.getText().equals(filter.getNev())){
                     item.setOnAction(e -> {
+                        Stack<Image> history = kepkezelo.getKepek().get(imageIndex).getHistory();
+                        if(history.size() < 10) {
+                            history.push(kepkezelo.getKep(imageIndex));
+                            undoMenuItem.setDisable(false);
+                        }
                         kepkezelo.set(imageIndex, filter.filter(kepkezelo.getKep(imageIndex)));
                         iv.setImage(kepkezelo.getKep(imageIndex));
                         bg.setCenter(iv);
                     });
                 }
             }
-
         }
 
+    }
+
+    private void undoAction() {
+        kepkezelo.set(imageIndex, kepkezelo.getKepek().get(imageIndex).getHistory().pop());
+        iv.setImage(kepkezelo.getKep(imageIndex));
+        bg.setCenter(iv);
+        if(kepkezelo.getKepek().get(imageIndex).getHistory().size() <= 0){
+            undoMenuItem.setDisable(true);
+        }
     }
 
     public void openFile(){
@@ -160,7 +183,6 @@ public class Main extends Application {
             //try {
                 //ImageIO.write(bImage, "png", ujFile);
             //}catch (IOException e){}
-            System.out.println("itt");
             kepkezelo.save(imageIndex, outputFile);
         }
     }

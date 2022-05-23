@@ -2,20 +2,23 @@ package kepnezegeto.kepKezelo;
 import javafx.scene.image.Image;
 
 import java.io.File;
+import java.util.Stack;
 
 
 public class Kep{
     private Image kep;
+
+    public Stack<Image> getHistory() {
+        return history;
+    }
+
+    private Stack<Image> history;
     private String url;
 
     public Kep(Image kep){
         this.kep = kep;
         url = kep.getUrl();
-    }
-
-    public Kep(Image kep, String url){
-        this.kep = kep;
-        this.url = url;
+        this.history = new Stack<>();
     }
 
     public String getUrl() {
