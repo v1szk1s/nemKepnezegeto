@@ -135,7 +135,7 @@ public class Main extends Application {
             //try {
                 //ImageIO.write(bImage, "png", ujFile);
             //}catch (IOException e){}
-
+            System.out.println("itt");
             kepkezelo.save(imageIndex, outputFile);
         }
     }
