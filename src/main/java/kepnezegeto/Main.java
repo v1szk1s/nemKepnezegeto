@@ -29,29 +29,48 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 import javax.imageio.*;
+import javax.swing.RootPaneContainer;
+
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 
 
 public class Main extends Application {
     private Stage window;
-    private BorderPane root;
-    private HBox preview;
-    private Kepkezelo kepkezelo = new Kepkezelo();
-    private int imageIndex = -1;
-    private ImageView iv = new ImageView();
+    private static BorderPane root;
+    private static HBox preview;
+    private static Kepkezelo kepkezelo = new Kepkezelo();
+    private static int imageIndex = -1;
+    private static ImageView iv = new ImageView();
     private Scene scene;
     private MenuBar menuBar;
     private Menu fileMenu, transzMenu, filterMenu;
     private MenuItem openMenuItem, saveMenuItem, undoMenuItem;
+
+
 
     @Override
     public void start(Stage stage) throws IOException {
         window = stage;
         //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/kepnezegeto/view/kepnezegeto.fxml"));
         init(stage);
+        root.setOnMouseClicked(e -> {
+            if(e.getClickCount() == 2 && kepkezelo.getKepek().size() == 0){
+                openFile();
+            }
+        });;
 
 
+    }
+
+    public static void setImageIndex(int index){
+        imageIndex = index;
+        iv.setImage(kepkezelo.getKep(imageIndex));
+        root.setCenter(iv);
+        preview.getChildren().clear();
+        for(var v:kepkezelo.getPreviewek()){
+            preview.getChildren().add(v);
+        }
     }
 
     public void init(Stage window){
@@ -98,7 +117,6 @@ public class Main extends Application {
 
 
         preview = new HBox();
-        preview.setPadding(new Insets(0, 20, 0, 20));
         preview.setMinHeight(150);
         BorderPane.setMargin(preview, new Insets(10, 10, 10, 10));
 
@@ -125,6 +143,7 @@ public class Main extends Application {
                         //root.setCenter(iv);
                         preview.getChildren().clear();
                         for(var v:kepkezelo.getPreviewek()){
+                            HBox.setMargin(v, new Insets(0, 20, 0, 20));
                             preview.getChildren().add(v);
                         }
                         //root.setBottom(preview);
@@ -147,6 +166,7 @@ public class Main extends Application {
 
                         preview.getChildren().clear();
                         for(var v:kepkezelo.getPreviewek()){
+                            HBox.setMargin(v, new Insets(0, 20, 0, 20));
                             preview.getChildren().add(v);
                         }
                         root.setBottom(preview);
@@ -177,6 +197,7 @@ public class Main extends Application {
             root.setCenter(iv);
             preview.getChildren().clear();
             for(var v:kepkezelo.getPreviewek()){
+                HBox.setMargin(v, new Insets(0, 20, 0, 20));
                 preview.getChildren().add(v);
             }
             root.setBottom(preview);
