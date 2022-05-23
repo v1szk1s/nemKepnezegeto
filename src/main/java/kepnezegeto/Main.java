@@ -12,7 +12,8 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kepnezegeto.kepek.Kep;
+import kepnezegeto.kepKezelo.Kepkezelo;
+import kepnezegeto.kepek.*;
 import kepnezegeto.tranformaciok.Forgatas;
 import kepnezegeto.tranformaciok.Transzformacio;
 import kepnezegeto.tranformaciok.Tukrozes;
@@ -29,9 +30,9 @@ public class Main extends Application {
     private Stage window;
     private StackPane root;
     private BorderPane bg;
-    private ArrayList<Image> kepek = new ArrayList<>();
-    private int imageIndex = 0;
-    ImageView iv;
+    private Kepkezelo kepkezelo = new Kepkezelo();
+    private int imageIndex = -1;
+    ImageView iv = new ImageView();
     
 
 
@@ -45,6 +46,11 @@ public class Main extends Application {
     }
 
     public void init(Stage window){
+
+
+        iv.setPreserveRatio(true);
+        iv.setFitWidth(1150);
+        iv.setFitHeight(750);
         ArrayList<Transzformacio> transzformaciok = new ArrayList<>(); // itt lehetne megcsinalni azt, hogy kesobb be lehessen importalni
         transzformaciok.add(new Forgatas());
         transzformaciok.add(new Tukrozes());
@@ -70,7 +76,7 @@ public class Main extends Application {
         bg.setCenter(text);
         root.getChildren().add(bg);
 
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1200, 800);
         window.setTitle("Képnézegető");
         window.setResizable(false);
         window.setScene(scene);
@@ -83,8 +89,8 @@ public class Main extends Application {
             for(var transz:transzformaciok){
                 if(item.getText().equals(transz.getNev())){
                     item.setOnAction(e -> {
-                        kepek.set(imageIndex-1,transz.transzformal(kepek.get(imageIndex-1)));
-                        iv = new ImageView(kepek.get(imageIndex-1));
+                        kepkezelo.getKepek().set(imageIndex,transz.transzformal(kepkezelo.getKepek().get(imageIndex)));
+                        iv.setImage(kepkezelo.getKepek().get(imageIndex));
                         bg.setCenter(iv);
                     });
                 }
@@ -100,15 +106,17 @@ public class Main extends Application {
         File kep = fileChooser.showOpenDialog(window);
 
         if(kep != null){
-            kepek.add(new Image(kep.toURI().toString()));
-            iv = new ImageView(kepek.get(imageIndex));
+            kepkezelo.getKepek().add(new Image(kep.toURI().toString()));
+            iv.setImage(kepkezelo.getKepek().get(++imageIndex));
+
+
             bg.setCenter(iv);
-            imageIndex++;
+
         }
     }
 
     public void saveFile(){
-        if (kepek.size() == 0){
+        if (kepkezelo.getKepek().size() == 0){
             Alert alert = new Alert(Alert.AlertType.ERROR, "Nincs kép!");
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.showAndWait();
@@ -118,11 +126,12 @@ public class Main extends Application {
         fileChooser.setTitle("Mentés");
         File outputFile = fileChooser.showSaveDialog(window);
         File ujFile = new File(outputFile.getAbsolutePath() + ".png");
-        BufferedImage bImage = SwingFXUtils.fromFXImage(iv.getImage(), null);
+        //BufferedImage bImage = SwingFXUtils.fromFXImage(iv.getImage(), null);
         if(outputFile != null){
-            try {
-                ImageIO.write(bImage, "png", ujFile);
-            }catch (IOException e){}
+            //try {
+                //ImageIO.write(bImage, "png", ujFile);
+            //}catch (IOException e){}
+            kepkezelo.save(imageIndex);
         }
     }
 

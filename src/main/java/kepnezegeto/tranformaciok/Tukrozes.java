@@ -6,8 +6,7 @@ import javafx.scene.transform.Rotate;
 import kepnezegeto.kepek.Kep;
 import javafx.embed.swing.SwingFXUtils;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+
 import java.io.File;
 
 public class Tukrozes implements Transzformacio{
@@ -17,7 +16,7 @@ public class Tukrozes implements Transzformacio{
     }
     @Override
     public Image transzformal(Image kep) {
-        BufferedImage imagem;
+        
         ImageView imageView = new ImageView(kep);
         imageView.setTranslateZ(imageView.getBoundsInLocal().getWidth() / 2.0);
         imageView.setRotationAxis(Rotate.Y_AXIS);
