@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -29,12 +30,13 @@ import java.util.ArrayList;
 import java.util.Stack;
 import javax.imageio.*;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.geometry.Insets;
 
 
 public class Main extends Application {
     private Stage window;
-    private StackPane root;
-    private BorderPane bg;
+    private BorderPane root;
+    private HBox preview;
     private Kepkezelo kepkezelo = new Kepkezelo();
     private int imageIndex = -1;
     private ImageView iv = new ImageView();
@@ -53,11 +55,10 @@ public class Main extends Application {
     }
 
     public void init(Stage window){
-
-
         iv.setPreserveRatio(true);
-        iv.setFitWidth(1150);
-        iv.setFitHeight(750);
+        iv.setFitWidth(1000);
+        iv.setFitHeight(600);
+
         ArrayList<Transzformacio> transzformaciok = new ArrayList<>(); // itt lehetne megcsinalni azt, hogy kesobb be lehessen importalni
         transzformaciok.add(new Forgatas());
         transzformaciok.add(new Tukrozes());
@@ -66,9 +67,7 @@ public class Main extends Application {
         filterek.add(new Grayscale());
         filterek.add(new Negativ());
         
-        root = new StackPane();
-        
-        bg = new BorderPane();
+        root = new BorderPane();
 
         menuBar = new MenuBar();
         fileMenu = new Menu("Fájl");
@@ -91,13 +90,19 @@ public class Main extends Application {
 
 
         menuBar.getMenus().addAll(fileMenu, transzMenu, filterMenu);
-        bg.setTop(menuBar);
+        root.setTop(menuBar);
 
         Text text = new Text("Fájl menüpontban Megnyitás opcióval tudsz képet megnyitni...");
-        bg.setCenter(text);
-        root.getChildren().add(bg);
+        root.setCenter(text);
 
-        scene = new Scene(root, 1200, 800);
+
+
+        preview = new HBox();
+        preview.setPadding(new Insets(0, 20, 0, 20));
+        preview.setMinHeight(150);
+        BorderPane.setMargin(preview, new Insets(10, 10, 10, 10));
+
+        Scene scene = new Scene(root, 1200, 750);
         window.setTitle("Képnézegető");
         window.setResizable(false);
         window.setScene(scene);
@@ -117,7 +122,12 @@ public class Main extends Application {
                         }
                         kepkezelo.set(imageIndex, transz.transzformal(kepkezelo.getKep(imageIndex)));
                         iv.setImage(kepkezelo.getKep(imageIndex));
-                        bg.setCenter(iv);
+                        //root.setCenter(iv);
+                        preview.getChildren().clear();
+                        for(var v:kepkezelo.getPreviewek()){
+                            preview.getChildren().add(v);
+                        }
+                        //root.setBottom(preview);
                     });
                 }
             }
@@ -134,7 +144,12 @@ public class Main extends Application {
                         }
                         kepkezelo.set(imageIndex, filter.filter(kepkezelo.getKep(imageIndex)));
                         iv.setImage(kepkezelo.getKep(imageIndex));
-                        bg.setCenter(iv);
+
+                        preview.getChildren().clear();
+                        for(var v:kepkezelo.getPreviewek()){
+                            preview.getChildren().add(v);
+                        }
+                        root.setBottom(preview);
                     });
                 }
             }
@@ -145,7 +160,6 @@ public class Main extends Application {
     private void undoAction() {
         kepkezelo.set(imageIndex, kepkezelo.getKepek().get(imageIndex).getHistory().pop());
         iv.setImage(kepkezelo.getKep(imageIndex));
-        bg.setCenter(iv);
         if(kepkezelo.getKepek().get(imageIndex).getHistory().size() <= 0){
             undoMenuItem.setDisable(true);
         }
@@ -160,9 +174,12 @@ public class Main extends Application {
             kepkezelo.add(new Image(kep.toURI().toString()));
             imageIndex++;
             iv.setImage(kepkezelo.getKep(imageIndex));
-
-
-            bg.setCenter(iv);
+            root.setCenter(iv);
+            preview.getChildren().clear();
+            for(var v:kepkezelo.getPreviewek()){
+                preview.getChildren().add(v);
+            }
+            root.setBottom(preview);
 
         }
     }
