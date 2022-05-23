@@ -107,7 +107,8 @@ public class Main extends Application {
 
         if(kep != null){
             kepkezelo.getKepek().add(new Image(kep.toURI().toString()));
-            iv.setImage(kepkezelo.getKepek().get(++imageIndex));
+            imageIndex++;
+            iv.setImage(kepkezelo.getKepek().get(imageIndex));
 
 
             bg.setCenter(iv);

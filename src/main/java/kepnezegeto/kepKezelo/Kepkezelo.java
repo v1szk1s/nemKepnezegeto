@@ -29,7 +29,7 @@ public class Kepkezelo {
         ImageIO.write(SwingFXUtils.fromFXImage(kepek.get(index), null), "png", new File(kepek.get(index).getUrl()));
         }catch(Exception err){
             Alert hiba = new Alert(AlertType.ERROR);
-            hiba.setContentText("Nem sikerült elmenteni, valamiért.");
+            hiba.setContentText("Nem sikerült elmenteni, valamiért." + err.toString());
             hiba.showAndWait();
 
         }
