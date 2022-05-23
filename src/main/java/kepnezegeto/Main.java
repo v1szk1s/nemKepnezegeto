@@ -89,8 +89,10 @@ public class Main extends Application {
             for(var transz:transzformaciok){
                 if(item.getText().equals(transz.getNev())){
                     item.setOnAction(e -> {
-                        kepkezelo.getKepek().set(imageIndex,transz.transzformal(kepkezelo.getKepek().get(imageIndex)));
-                        iv.setImage(kepkezelo.getKepek().get(imageIndex));
+                        Image currImage = kepkezelo.getKepek().get(imageIndex);
+                        String path = currImage.getUrl();
+                        kepkezelo.getKepek().set(imageIndex,transz.transzformal(currImage));
+                        iv.setImage(currImage);
                         bg.setCenter(iv);
                     });
                 }
@@ -125,13 +127,14 @@ public class Main extends Application {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Mentés");
         File outputFile = fileChooser.showSaveDialog(window);
-        File ujFile = new File(outputFile.getAbsolutePath() + ".png");
+
         //BufferedImage bImage = SwingFXUtils.fromFXImage(iv.getImage(), null);
         if(outputFile != null){
             //try {
                 //ImageIO.write(bImage, "png", ujFile);
             //}catch (IOException e){}
-            kepkezelo.save(imageIndex);
+
+            kepkezelo.save(imageIndex, outputFile);
         }
     }
 
