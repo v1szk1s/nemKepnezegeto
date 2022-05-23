@@ -1,10 +1,17 @@
 package kepnezegeto.tranformaciok;
 
-import kepnezegeto.kepek.Kep;
+import javafx.scene.image.Image;
+import kepnezegeto.kepKezelo.Kep;
 
-public class Kimetszes implements Transzformalas{
+import java.io.File;
+
+public class Kimetszes implements Transzformacio{
     @Override
-    public void transzformal(Kep kep) {
-
+    public String getNev() {
+        return "Metszés";
+    }
+    @Override
+    public Image transzformal(Image kep) {
+        return null;
     }
 }
