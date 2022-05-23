@@ -90,10 +90,8 @@ public class Main extends Application {
             for(var transz:transzformaciok){
                 if(item.getText().equals(transz.getNev())){
                     item.setOnAction(e -> {
-                        Image currImage = kepkezelo.getKep(imageIndex);
-                        String path = currImage.getUrl();
-                        kepkezelo.set(imageIndex, transz.transzformal(currImage));
-                        iv.setImage(currImage);
+                        kepkezelo.set(imageIndex, transz.transzformal(kepkezelo.getKep(imageIndex)));
+                        iv.setImage(kepkezelo.getKep(imageIndex));
                         bg.setCenter(iv);
                     });
                 }
