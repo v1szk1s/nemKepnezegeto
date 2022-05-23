@@ -19,6 +19,9 @@ import kepnezegeto.tranformaciok.Forgatas;
 import kepnezegeto.tranformaciok.Transzformacio;
 import kepnezegeto.tranformaciok.Tukrozes;
 
+import kepnezegeto.filterek.*;
+
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -55,6 +58,10 @@ public class Main extends Application {
         ArrayList<Transzformacio> transzformaciok = new ArrayList<>(); // itt lehetne megcsinalni azt, hogy kesobb be lehessen importalni
         transzformaciok.add(new Forgatas());
         transzformaciok.add(new Tukrozes());
+
+        ArrayList<Filter> filterek = new ArrayList<>();
+        filterek.add(new Grayscale());
+        filterek.add(new Negativ());
         
         root = new StackPane();
         
@@ -70,7 +77,14 @@ public class Main extends Application {
         for(var t:transzformaciok){
             transzMenu.getItems().add(new MenuItem(t.getNev()));
         }
-        menuBar.getMenus().addAll(fileMenu, transzMenu);
+        
+
+        Menu filterMenu = new Menu("Filterek");
+        for(var t:filterek){
+            filterMenu.getItems().add(new MenuItem(t.getNev()));
+        }
+
+        menuBar.getMenus().addAll(fileMenu, transzMenu, filterMenu);
         bg.setTop(menuBar);
 
         Text text = new Text("Fájl menüpontban Megnyitás opcióval tudsz képet megnyitni...");
@@ -91,6 +105,19 @@ public class Main extends Application {
                 if(item.getText().equals(transz.getNev())){
                     item.setOnAction(e -> {
                         kepkezelo.set(imageIndex, transz.transzformal(kepkezelo.getKep(imageIndex)));
+                        iv.setImage(kepkezelo.getKep(imageIndex));
+                        bg.setCenter(iv);
+                    });
+                }
+            }
+
+        }
+
+        for (var item:filterMenu.getItems()){
+            for(var filter:filterek){
+                if(item.getText().equals(filter.getNev())){
+                    item.setOnAction(e -> {
+                        kepkezelo.set(imageIndex, filter.filter(kepkezelo.getKep(imageIndex)));
                         iv.setImage(kepkezelo.getKep(imageIndex));
                         bg.setCenter(iv);
                     });

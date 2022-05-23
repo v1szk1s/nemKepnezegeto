@@ -6,6 +6,6 @@ module kepnezegeto.kepnezegeto {
     requires javafx.graphics;
     requires javafx.swing;
     opens kepnezegeto;
-    opens kepnezegeto.controllers to javafx.fxml;
+
 
 }
