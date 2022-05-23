@@ -15,18 +15,12 @@ public class Forgatas implements Transzformacio{
         return "Forgatás";
     }
     @Override
-    public void transzformal(File kep) {
+    public Image transzformal(Image kep) {
 
-        try {
-            BufferedImage imagem = ImageIO.read(kep);
-            Image image = SwingFXUtils.toFXImage(imagem, null);
-            ImageView imageView = new ImageView(image);
-            imageView.setRotate(90);
-            imagem = SwingFXUtils.fromFXImage(imageView.snapshot(null, null), null);
-            ImageIO.write(imagem, "png", kep);
-        }catch (Exception e){
-            System.out.println(e.toString());
-        }
+        ImageView imageView = new ImageView(kep);
+        imageView.setRotate(90);
+        return imageView.snapshot(null, null);
+
 
         //ImageView iv = new ImageView(kep);
 

@@ -7,5 +7,5 @@ import java.io.File;
 
 public interface Transzformacio {
     String getNev();
-    void transzformal(File kep);
+    public Image transzformal(Image kep);
 }

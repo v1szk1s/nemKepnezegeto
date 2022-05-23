@@ -3,6 +3,7 @@ package kepnezegeto;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -28,7 +29,7 @@ public class Main extends Application {
     private Stage window;
     private StackPane root;
     private BorderPane bg;
-    private ArrayList<Kep> kepek = new ArrayList<>();
+    private ArrayList<Image> kepek = new ArrayList<>();
     private int imageIndex = 0;
     ImageView iv;
     
@@ -82,8 +83,8 @@ public class Main extends Application {
             for(var transz:transzformaciok){
                 if(item.getText().equals(transz.getNev())){
                     item.setOnAction(e -> {
-                        transz.transzformal(kepek.get(imageIndex-1).getFile());
-                        iv = new ImageView(kepek.get(imageIndex-1).getAsImage());
+                        kepek.set(imageIndex-1,transz.transzformal(kepek.get(imageIndex-1)));
+                        iv = new ImageView(kepek.get(imageIndex-1));
                         bg.setCenter(iv);
                     });
                 }
@@ -97,9 +98,10 @@ public class Main extends Application {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Képek megnyitása");
         File kep = fileChooser.showOpenDialog(window);
+
         if(kep != null){
-            kepek.add(new Kep(kep));
-            iv = new ImageView(kepek.get(imageIndex).getAsImage());
+            kepek.add(new Image(kep.toURI().toString()));
+            iv = new ImageView(kepek.get(imageIndex));
             bg.setCenter(iv);
             imageIndex++;
         }

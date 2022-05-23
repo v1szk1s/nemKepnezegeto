@@ -12,6 +12,7 @@ public class Atmeretezes implements Transzformacio{
     }
 
     @Override
-    public void transzformal(File kep) {
+    public Image transzformal(Image kep) {
+        return null;
     }
 }

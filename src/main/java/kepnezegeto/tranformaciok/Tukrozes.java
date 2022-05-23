@@ -16,18 +16,15 @@ public class Tukrozes implements Transzformacio{
         return "Tükrözés";
     }
     @Override
-    public void transzformal(File kep) {
-        try {
-            BufferedImage imagem = ImageIO.read(kep);
-            Image image = SwingFXUtils.toFXImage(imagem, null);
-            ImageView imageView = new ImageView(image);
-            imageView.setTranslateZ(imageView.getBoundsInLocal().getWidth() / 2.0);
-            imageView.setRotationAxis(Rotate.Y_AXIS);
-            imageView.setRotate(180);
-            imagem = SwingFXUtils.fromFXImage(imageView.snapshot(null, null), null);
-            ImageIO.write(imagem, "png", kep);
-        }catch (Exception e){
-            System.out.println(e.toString());
-        }
+    public Image transzformal(Image kep) {
+        BufferedImage imagem;
+        ImageView imageView = new ImageView(kep);
+        imageView.setTranslateZ(imageView.getBoundsInLocal().getWidth() / 2.0);
+        imageView.setRotationAxis(Rotate.Y_AXIS);
+        imageView.setRotate(180);
+        return imageView.snapshot(null, null);
+        //TODO mentés
+        // ImageIO.write(imagem, "png", new File(kep.getUrl()));
+
     }
 }

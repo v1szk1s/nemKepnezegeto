@@ -11,6 +11,7 @@ public class Kimetszes implements Transzformacio{
         return "Metszés";
     }
     @Override
-    public void transzformal(File kep) {
+    public Image transzformal(Image kep) {
+        return null;
     }
 }
