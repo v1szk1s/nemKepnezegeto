@@ -1,23 +1,16 @@
 package kepnezegeto;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kepnezegeto.filterek.Grayscale;
-import kepnezegeto.kepKezelo.Kepkezelo;
 import kepnezegeto.kepek.Kep;
 import kepnezegeto.tranformaciok.Forgatas;
 import kepnezegeto.tranformaciok.Transzformacio;
@@ -33,11 +26,12 @@ import javafx.embed.swing.SwingFXUtils;
 
 public class Main extends Application {
     private Stage window;
-    private BorderPane root;
+    private StackPane root;
+    private BorderPane bg;
     private ArrayList<Kep> kepek = new ArrayList<>();
     private int imageIndex = 0;
     ImageView iv;
-    private Text text = new Text("Fájl menüpontban Megnyitás opcióval tudsz képet megnyitni...");
+    
 
 
     @Override
@@ -50,11 +44,14 @@ public class Main extends Application {
     }
 
     public void init(Stage window){
-        ArrayList<Transzformacio> transzformaciok = new ArrayList<>();
+        ArrayList<Transzformacio> transzformaciok = new ArrayList<>(); // itt lehetne megcsinalni azt, hogy kesobb be lehessen importalni
         transzformaciok.add(new Forgatas());
         transzformaciok.add(new Tukrozes());
+        
+        root = new StackPane();
+        
+        bg = new BorderPane();
 
-        root = new BorderPane();
         MenuBar menuBar = new MenuBar();
         Menu fileMenu = new Menu("Fájl");
         MenuItem openMenuItem = new MenuItem("Megnyitás");
@@ -65,11 +62,13 @@ public class Main extends Application {
         for(var t:transzformaciok){
             transzMenu.getItems().add(new MenuItem(t.getNev()));
         }
-
         menuBar.getMenus().addAll(fileMenu, transzMenu);
+        bg.setTop(menuBar);
 
-        root.setTop(menuBar);
-        root.setCenter(text);
+        Text text = new Text("Fájl menüpontban Megnyitás opcióval tudsz képet megnyitni...");
+        bg.setCenter(text);
+        root.getChildren().add(bg);
+
         Scene scene = new Scene(root, 800, 600);
         window.setTitle("Képnézegető");
         window.setResizable(false);
@@ -85,7 +84,7 @@ public class Main extends Application {
                     item.setOnAction(e -> {
                         transz.transzformal(kepek.get(imageIndex-1).getFile());
                         iv = new ImageView(kepek.get(imageIndex-1).getAsImage());
-                        root.setCenter(iv);
+                        bg.setCenter(iv);
                     });
                 }
             }
@@ -101,7 +100,7 @@ public class Main extends Application {
         if(kep != null){
             kepek.add(new Kep(kep));
             iv = new ImageView(kepek.get(imageIndex).getAsImage());
-            root.setCenter(iv);
+            bg.setCenter(iv);
             imageIndex++;
         }
     }
