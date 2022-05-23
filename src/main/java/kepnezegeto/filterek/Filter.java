@@ -1,6 +1,6 @@
 package kepnezegeto.filterek;
 
-import kepnezegeto.kepek.Kep;
+import kepnezegeto.kepKezelo.Kep;
 
 public abstract class Filter {
     abstract void alkalmazFilter(Kep kep);

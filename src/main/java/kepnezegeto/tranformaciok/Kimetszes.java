@@ -1,7 +1,7 @@
 package kepnezegeto.tranformaciok;
 
 import javafx.scene.image.Image;
-import kepnezegeto.kepek.Kep;
+import kepnezegeto.kepKezelo.Kep;
 
 import java.io.File;
 

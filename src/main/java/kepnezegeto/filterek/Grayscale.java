@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import kepnezegeto.kepek.Kep;
+import kepnezegeto.kepKezelo.Kep;
 
 public class Grayscale {
 

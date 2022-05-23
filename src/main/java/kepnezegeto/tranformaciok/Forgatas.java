@@ -2,7 +2,7 @@ package kepnezegeto.tranformaciok;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import kepnezegeto.kepek.Kep;
+import kepnezegeto.kepKezelo.Kep;
 import javafx.embed.swing.SwingFXUtils;
 
 import javax.imageio.ImageIO;

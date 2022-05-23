@@ -4,21 +4,33 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
-import kepnezegeto.kepek.Kep;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 
 public class Kepkezelo {
-    private ArrayList<Image> kepek;
+    private ArrayList<Kep> kepek;
 
     public Kepkezelo(){
         kepek = new ArrayList<>();
     }
 
-    public ArrayList<Image> getKepek(){
+    public ArrayList<Kep> getKepek(){
         return kepek;
+    }
+
+    public Image getKep(int index){
+        return kepek.get(index).getImage();
+    }
+
+    public void set(int index, Image img){
+        kepek.get(index).setImage(img);
+    }
+
+    public void add(Image img){
+        kepek.add(new Kep(img));
     }
 
     public String getExtension(String url){
@@ -31,7 +43,7 @@ public class Kepkezelo {
         try{
         //BufferedImage imagem;
         //ImageIO.write(SwingFXUtils.fromFXImage(kepek.get(index), null), "png", new File(kepek.get(index).getUrl()));
-            BufferedImage bImage = SwingFXUtils.fromFXImage(kepek.get(index), null);
+            BufferedImage bImage = SwingFXUtils.fromFXImage(kepek.get(index).getImage(), null);
             file = new File(file.getAbsolutePath() + getExtension(kepek.get(index).getUrl()));
             ImageIO.write(bImage,getExtension(kepek.get(index).getUrl()), file);
         }catch(Exception err){

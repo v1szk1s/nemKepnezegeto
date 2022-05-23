@@ -12,8 +12,9 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import kepnezegeto.kepKezelo.Kep;
 import kepnezegeto.kepKezelo.Kepkezelo;
-import kepnezegeto.kepek.*;
+
 import kepnezegeto.tranformaciok.Forgatas;
 import kepnezegeto.tranformaciok.Transzformacio;
 import kepnezegeto.tranformaciok.Tukrozes;
@@ -89,9 +90,9 @@ public class Main extends Application {
             for(var transz:transzformaciok){
                 if(item.getText().equals(transz.getNev())){
                     item.setOnAction(e -> {
-                        Image currImage = kepkezelo.getKepek().get(imageIndex);
+                        Image currImage = kepkezelo.getKep(imageIndex);
                         String path = currImage.getUrl();
-                        kepkezelo.getKepek().set(imageIndex,transz.transzformal(currImage));
+                        kepkezelo.set(imageIndex, transz.transzformal(currImage));
                         iv.setImage(currImage);
                         bg.setCenter(iv);
                     });
@@ -108,9 +109,9 @@ public class Main extends Application {
         File kep = fileChooser.showOpenDialog(window);
 
         if(kep != null){
-            kepkezelo.getKepek().add(new Image(kep.toURI().toString()));
+            kepkezelo.add(new Image(kep.toURI().toString()));
             imageIndex++;
-            iv.setImage(kepkezelo.getKepek().get(imageIndex));
+            iv.setImage(kepkezelo.getKep(imageIndex));
 
 
             bg.setCenter(iv);
