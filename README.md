@@ -53,8 +53,6 @@ A menüpontok alatt a képernyő tetején megjelenik a kép neve is, hogy pontos
 A támogatott file formátumok:
 - jpg
 - png
-- bmp
-- gif
 
 További file formátum támogatása a jövőben várható!
 
