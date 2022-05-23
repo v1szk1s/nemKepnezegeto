@@ -45,7 +45,7 @@ public class Main extends Application {
     private Scene scene;
     private MenuBar menuBar;
     private Menu fileMenu, transzMenu, filterMenu;
-    private MenuItem openMenuItem, saveMenuItem, undoMenuItem;
+    private static MenuItem openMenuItem, saveMenuItem, undoMenuItem;
 
 
 
@@ -68,6 +68,7 @@ public class Main extends Application {
         iv.setImage(kepkezelo.getKep(imageIndex));
         root.setCenter(iv);
         preview.getChildren().clear();
+        undoMenuItem.setDisable(kepkezelo.getKepek().get(imageIndex).getHistory().size() == 0);
         for(var v:kepkezelo.getPreviewek()){
             preview.getChildren().add(v);
         }
@@ -187,6 +188,8 @@ public class Main extends Application {
 
     public void openFile(){
         FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG/PNG fájlok (*.png, *.jpg)", "*.jpg", "*.JPG", "*.png", "*.PNG"));
+
         fileChooser.setTitle("Képek megnyitása");
         File kep = fileChooser.showOpenDialog(window);
 
