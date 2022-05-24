@@ -49,6 +49,7 @@ public class Main extends Application {
     private Menu fileMenu, transzMenu, filterMenu;
     private static MenuItem openFileMenuItem, saveMenuItem, undoMenuItem, openFilesMenuItem;
     private Button right, left;
+    private FileChooser fileChooser;
 
 
     @Override
@@ -81,6 +82,9 @@ public class Main extends Application {
     }
 
     public void init(Stage window){
+        fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG/PNG/GIF fájlok (*.png, *.jpg, *.gif)", "*.jpg", "*.JPG", "*.png", "*.PNG", "*.GIF", "*.gif"));
+
         iv.setPreserveRatio(true);
         iv.setFitWidth(1000);
         iv.setFitHeight(580);
@@ -227,9 +231,6 @@ public class Main extends Application {
     }
 
     public void openFile(){
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG/PNG fájlok (*.png, *.jpg)", "*.jpg", "*.JPG", "*.png", "*.PNG"));
-
         fileChooser.setTitle("Képek megnyitása");
         File kep = fileChooser.showOpenDialog(window);
 
@@ -246,9 +247,6 @@ public class Main extends Application {
     }
 
     public void openFiles(){
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG/PNG fájlok (*.png, *.jpg)", "*.jpg", "*.JPG", "*.png", "*.PNG"));
-
         fileChooser.setTitle("Képek megnyitása");
         List<File> kepek = fileChooser.showOpenMultipleDialog(window);
 
@@ -272,9 +270,8 @@ public class Main extends Application {
             alert.showAndWait();
             return;
         }
-        FileChooser fileChooser = new FileChooser();
+        
         fileChooser.setTitle("Mentés");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JPG/PNG fájlok (*.png, *.jpg)", "*.jpg", "*.JPG", "*.png", "*.PNG"));
         File outputFile = fileChooser.showSaveDialog(window);
 
         //BufferedImage bImage = SwingFXUtils.fromFXImage(iv.getImage(), null);
