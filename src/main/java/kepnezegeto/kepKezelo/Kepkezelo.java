@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Kepkezelo {
     private ArrayList<Kep> kepek;
@@ -64,9 +65,17 @@ public class Kepkezelo {
 
         //BufferedImage imagem;
         //ImageIO.write(SwingFXUtils.fromFXImage(kepek.get(index), null), "png", new File(kepek.get(index).getUrl()));
+            ArrayList<String>exts = new ArrayList<>(List.of(new String[]{"png", "jpg", "gif"}));
+            String[]fileParts = file.getName().split("\\.");
+            String ext;
+            if(!exts.contains(fileParts[fileParts.length-1])){
+                file = new File(file.getAbsolutePath() + "." + kepek.get(index).getExtension());
+                ext = kepek.get(index).getExtension();
+            }else{
+                ext = fileParts[fileParts.length-1];
+            }
             BufferedImage bImage = SwingFXUtils.fromFXImage(kepek.get(index).getImage(), null);
-            file = new File(file.getAbsolutePath() + "." + kepek.get(index).getExtension());
-            ImageIO.write(bImage, kepek.get(index).getExtension(), file);
+            ImageIO.write(bImage, ext, file);
         }catch(Exception err){
             Alert hiba = new Alert(AlertType.ERROR);
             hiba.setContentText("Nem sikerült elmenteni, valamiért." + err);
