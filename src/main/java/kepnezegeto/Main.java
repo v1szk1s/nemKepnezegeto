@@ -139,23 +139,29 @@ public class Main extends Application {
                 if(item.getText().equals(transz.getNev())){
                     item.setOnAction(e -> {
 
-                        Stack<Image> history = kepkezelo.getKepek().get(imageIndex).getHistory();
-                        if(history.size() < 10) {
-                            history.push(kepkezelo.getKep(imageIndex));
-                            undoMenuItem.setDisable(false);
+
+                        if(kepkezelo.getKepek().size() > 0){
+
+                            //kepkezelo.set(imageIndex, transz.transzformal(kepkezelo.getKepek().get(imageIndex)));
+                            //iv.setImage(kepkezelo.getKep(imageIndex));
+                            //root.setCenter(iv);
+                            preview.getChildren().clear();
+                            for(var v:kepkezelo.getPreviewek()){
+                                HBox.setMargin(v, new Insets(0, 20, 0, 20));
+                                preview.getChildren().add(v);
+                            }
+
+                            root.setRight(transz.getUI(kepkezelo.getKepek().get(imageIndex), ((ev) -> {
+
+                                if(kepkezelo.getKepek().get(imageIndex).getHistory().size() != 0) {
+                                    undoMenuItem.setDisable(false);
+                                }
+                                root.getChildren().remove(((Button)ev.getSource()).getParent());
+                                iv.setImage(kepkezelo.getKep(imageIndex));
+
+                            })));
+
                         }
-                        //kepkezelo.set(imageIndex, transz.transzformal(kepkezelo.getKepek().get(imageIndex)));
-                        //iv.setImage(kepkezelo.getKep(imageIndex));
-                        //root.setCenter(iv);
-                        preview.getChildren().clear();
-                        for(var v:kepkezelo.getPreviewek()){
-                            HBox.setMargin(v, new Insets(0, 20, 0, 20));
-                            preview.getChildren().add(v);
-                        }
-                        root.setRight(transz.getUI(kepkezelo.getKepek().get(imageIndex), ((ev) -> {
-                            root.getChildren().remove(((Button)ev.getSource()).getParent());
-                            iv.setImage(kepkezelo.getKep(imageIndex));
-                        })));
                         //root.setBottom(preview);
                     });
                 }
@@ -166,20 +172,20 @@ public class Main extends Application {
             for(var filter:filterek){
                 if(item.getText().equals(filter.getNev())){
                     item.setOnAction(e -> {
-                        Stack<Image> history = kepkezelo.getKepek().get(imageIndex).getHistory();
-                        if(history.size() < 10) {
-                            history.push(kepkezelo.getKep(imageIndex));
-                            undoMenuItem.setDisable(false);
-                        }
-                        kepkezelo.set(imageIndex, filter.filter(kepkezelo.getKep(imageIndex)));
-                        iv.setImage(kepkezelo.getKep(imageIndex));
+                        if(kepkezelo.getKepek().size() > 0){
 
-                        preview.getChildren().clear();
-                        for(var v:kepkezelo.getPreviewek()){
-                            HBox.setMargin(v, new Insets(0, 20, 0, 20));
-                            preview.getChildren().add(v);
+                            undoMenuItem.setDisable(false);
+
+                            kepkezelo.set(imageIndex, filter.filter(kepkezelo.getKep(imageIndex)));
+                            iv.setImage(kepkezelo.getKep(imageIndex));
+
+                            preview.getChildren().clear();
+                            for(var v:kepkezelo.getPreviewek()){
+                                HBox.setMargin(v, new Insets(0, 20, 0, 20));
+                                preview.getChildren().add(v);
+                            }
+                            root.setBottom(preview);
                         }
-                        root.setBottom(preview);
                     });
                 }
             }
@@ -188,7 +194,10 @@ public class Main extends Application {
     }
 
     private void undoAction() {
-        kepkezelo.set(imageIndex, kepkezelo.getKepek().get(imageIndex).getHistory().pop());
+
+        kepkezelo.getKepek().get(imageIndex).restore();
+
+        System.out.println(kepkezelo.getKepek().get(imageIndex).getHistory().size());
         iv.setImage(kepkezelo.getKep(imageIndex));
         if(kepkezelo.getKepek().get(imageIndex).getHistory().size() <= 0){
             undoMenuItem.setDisable(true);

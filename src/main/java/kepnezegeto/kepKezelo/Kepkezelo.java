@@ -38,6 +38,7 @@ public class Kepkezelo {
 
     public void set(int index, Image img){
         kepek.get(index).setImage(img);
+
     }
 
     public void add(Image img){

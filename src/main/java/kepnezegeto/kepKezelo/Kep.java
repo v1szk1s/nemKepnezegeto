@@ -39,12 +39,20 @@ public class Kep{
         return kep;
     }
     public void setImage(Image img){
+        if(history.size() < 10) {
+            history.push(kep);
 
+        }
         kep = img;
         preview.setImage(img);
     }
 
     public ImageView getPreview() {
         return preview;
+    }
+
+    public void restore() {
+        kep = history.pop();
+        preview.setImage(kep);
     }
 }
