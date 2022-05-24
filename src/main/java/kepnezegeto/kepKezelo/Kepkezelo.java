@@ -14,18 +14,21 @@ import java.util.ArrayList;
 
 public class Kepkezelo {
     private ArrayList<Kep> kepek;
-    private ArrayList<ImageView> previewek;
 
     public ArrayList<ImageView> getPreviewek(){
-        return previewek;
+        ArrayList<ImageView>al = new ArrayList<>();
+        for(Kep kep: kepek){
+            al.add(kep.getPreview());
+        }
+        return al;
     }
 
     public Kepkezelo(){
         kepek = new ArrayList<>();
-        previewek = new ArrayList<>();
     }
 
     public ArrayList<Kep> getKepek(){
+
         return kepek;
     }
 
@@ -35,20 +38,17 @@ public class Kepkezelo {
 
     public void set(int index, Image img){
         kepek.get(index).setImage(img);
-        previewek.get(index).setImage(img);
     }
 
     public void add(Image img){
-        kepek.add(new Kep(img));
-        ImageView iv = new ImageView(img);
-        iv.setPreserveRatio(true);
-        iv.setFitWidth(200);
-        iv.setFitHeight(100);
-        iv.setOnMouseClicked(e -> {
-            Main.setImageIndex(previewek.indexOf(e.getTarget()));
+        Kep kep = new Kep(img);
+        kepek.add(kep);
+
+
+        kep.getPreview().setOnMouseClicked(e -> {
+            Main.setImageIndex(getPreviewek().indexOf(e.getTarget()));
 
         });
-        previewek.add(iv);
         
 
     }

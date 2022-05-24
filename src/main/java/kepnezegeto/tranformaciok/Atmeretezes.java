@@ -34,13 +34,7 @@ public class Atmeretezes implements Transzformacio{
         Graphics2D graphics2D = imagem.createGraphics();
         graphics2D.drawImage(SwingFXUtils.fromFXImage(kep.getImage(), null), 0, 0, szelesseg, magassag, null);
         graphics2D.dispose();
-        try {
-            ImageIO.write(imagem, kep.getExtension(), new File(kep.getUrl()));
-        }
-        catch (Exception e){
-            //todo
-            System.out.println("Hiba a kep irasakor");
-        }
+
         return SwingFXUtils.toFXImage(imagem,null);
     }
 
@@ -48,13 +42,50 @@ public class Atmeretezes implements Transzformacio{
     public Node getUI(Kep kep, EventHandler<ActionEvent> eh) {
         Label szelessegLabel = new Label("Szélesség");
         Label magassagLabel = new Label("Magasság");
-        TextField szelessegTextField = new TextField();
-        TextField magassagTextField = new TextField();
+        TextField szelessegTextField = new TextField(String.valueOf((int)kep.getImage().getWidth()));
+        TextField magassagTextField = new TextField(String.valueOf((int)kep.getImage().getHeight()));
         Button megseButton = new Button("Mégse");
         Button transzformalButton = new Button("Transzformál");
         GridPane root = new GridPane();
 
         megseButton.setOnAction(eh);
+        transzformalButton.setOnAction(e->{
+            try {
+                szelesseg = Integer.parseInt(szelessegTextField.getText());
+                magassag = Integer.parseInt(magassagTextField.getText());
+                kep.setImage(transzformal(kep));
+                megseButton.fireEvent(e);
+            }catch (Exception ex){
+                //TODO lekezel
+                System.out.println("hello");
+            }
+
+        });
+        szelessegTextField.setOnKeyTyped(ev ->{
+            try {
+                ;
+                double temp = kep.getImage().getWidth() / Integer.parseInt(szelessegTextField.getText());
+                magassagTextField.setText(String.valueOf(Math.round((kep.getImage().getHeight() / temp))));
+            }
+            catch (Exception e){
+                //TODO lekezelni
+                System.out.println("hello");
+            }
+
+        });
+        magassagTextField.setOnKeyTyped(ev -> {
+            try {
+
+                double temp = kep.getImage().getHeight() / Integer.parseInt(magassagTextField.getText());
+                szelessegTextField.setText(String.valueOf(Math.round((kep.getImage().getWidth() / temp))));
+            }
+            catch (Exception e){
+                //TODO lekezelni
+                System.out.println("hello");
+            }
+        });
+
+
 
         root.add(szelessegLabel,0,0);
         root.add(szelessegTextField, 1, 0);

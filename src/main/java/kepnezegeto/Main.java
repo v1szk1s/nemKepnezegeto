@@ -20,10 +20,7 @@ import javafx.stage.Stage;
 import kepnezegeto.kepKezelo.Kep;
 import kepnezegeto.kepKezelo.Kepkezelo;
 
-import kepnezegeto.tranformaciok.Atmeretezes;
-import kepnezegeto.tranformaciok.Forgatas;
-import kepnezegeto.tranformaciok.Transzformacio;
-import kepnezegeto.tranformaciok.Tukrozes;
+import kepnezegeto.tranformaciok.*;
 
 import kepnezegeto.filterek.*;
 
@@ -71,6 +68,7 @@ public class Main extends Application {
         imageIndex = index;
         iv.setImage(kepkezelo.getKep(imageIndex));
         root.setCenter(iv);
+        root.setRight(null);
         preview.getChildren().clear();
         undoMenuItem.setDisable(kepkezelo.getKepek().get(imageIndex).getHistory().size() == 0);
         for(var v:kepkezelo.getPreviewek()){
@@ -87,6 +85,7 @@ public class Main extends Application {
         transzformaciok.add(new Forgatas());
         transzformaciok.add(new Tukrozes());
         transzformaciok.add(new Atmeretezes());
+        transzformaciok.add(new Kimetszes());
 
         ArrayList<Filter> filterek = new ArrayList<>();
         filterek.add(new Grayscale());
@@ -146,7 +145,7 @@ public class Main extends Application {
                             undoMenuItem.setDisable(false);
                         }
                         //kepkezelo.set(imageIndex, transz.transzformal(kepkezelo.getKepek().get(imageIndex)));
-                        iv.setImage(kepkezelo.getKep(imageIndex));
+                        //iv.setImage(kepkezelo.getKep(imageIndex));
                         //root.setCenter(iv);
                         preview.getChildren().clear();
                         for(var v:kepkezelo.getPreviewek()){
@@ -155,7 +154,7 @@ public class Main extends Application {
                         }
                         root.setRight(transz.getUI(kepkezelo.getKepek().get(imageIndex), ((ev) -> {
                             root.getChildren().remove(((Button)ev.getSource()).getParent());
-
+                            iv.setImage(kepkezelo.getKep(imageIndex));
                         })));
                         //root.setBottom(preview);
                     });
