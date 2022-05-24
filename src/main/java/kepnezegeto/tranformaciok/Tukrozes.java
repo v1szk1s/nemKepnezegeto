@@ -2,6 +2,7 @@ package kepnezegeto.tranformaciok;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -52,7 +53,10 @@ public class Tukrozes implements Transzformacio{
             kep.setImage(transzformal(kep));
             megseButton.fireEvent(e);
         });
-
+        VBox.setMargin(xButton, new Insets(10, 10, 10, 10));
+        VBox.setMargin(yButton, new Insets(10, 10, 10, 10));
+        VBox.setMargin(megseButton, new Insets(10, 10, 10, 10));
+        root.setPadding(new Insets(10, 10, 10, 10));
         root.getChildren().addAll(xButton, yButton, megseButton);
         return root;
     }

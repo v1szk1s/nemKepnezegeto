@@ -147,7 +147,7 @@ public class Main extends Application {
         menuBar.getMenus().addAll(fileMenu, transzMenu, filterMenu);
         root.setTop(menuBar);
 
-        Text text = new Text("Fájl menüpontban Megnyitás opcióval tudsz képet megnyitni...");
+        Text text = new Text("Kép megnyitásához duplán kattints valahova...");
         root.setCenter(text);
 
 
@@ -159,7 +159,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(root, 1200, 750);
         scene.getStylesheets().add("file:src/main/java/kepnezegeto/style/style.css");
-        window.setTitle("Képnézegető");
+        window.setTitle("A Festő Titkai");
         window.setResizable(false);
         window.setScene(scene);
         window.show();
