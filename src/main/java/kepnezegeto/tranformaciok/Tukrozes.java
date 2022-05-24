@@ -1,5 +1,7 @@
 package kepnezegeto.tranformaciok;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,7 +30,7 @@ public class Tukrozes implements Transzformacio{
     }
 
     @Override
-    public Node getUI(Kep kep) {
+    public Node getUI(Kep kep, EventHandler<ActionEvent> eh) {
         return null;
     }
 

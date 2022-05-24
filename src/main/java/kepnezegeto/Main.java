@@ -1,6 +1,9 @@
 package kepnezegeto;
 
 import javafx.application.Application;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -13,15 +16,16 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import kepnezegeto.kepKezelo.Kep;
 import kepnezegeto.kepKezelo.Kepkezelo;
 
+import kepnezegeto.tranformaciok.Atmeretezes;
 import kepnezegeto.tranformaciok.Forgatas;
 import kepnezegeto.tranformaciok.Transzformacio;
 import kepnezegeto.tranformaciok.Tukrozes;
 
 import kepnezegeto.filterek.*;
-
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -82,6 +86,7 @@ public class Main extends Application {
         ArrayList<Transzformacio> transzformaciok = new ArrayList<>(); // itt lehetne megcsinalni azt, hogy kesobb be lehessen importalni
         transzformaciok.add(new Forgatas());
         transzformaciok.add(new Tukrozes());
+        transzformaciok.add(new Atmeretezes());
 
         ArrayList<Filter> filterek = new ArrayList<>();
         filterek.add(new Grayscale());
@@ -134,12 +139,13 @@ public class Main extends Application {
             for(var transz:transzformaciok){
                 if(item.getText().equals(transz.getNev())){
                     item.setOnAction(e -> {
+
                         Stack<Image> history = kepkezelo.getKepek().get(imageIndex).getHistory();
                         if(history.size() < 10) {
                             history.push(kepkezelo.getKep(imageIndex));
                             undoMenuItem.setDisable(false);
                         }
-                        kepkezelo.set(imageIndex, transz.transzformal(kepkezelo.getKepek().get(imageIndex)));
+                        //kepkezelo.set(imageIndex, transz.transzformal(kepkezelo.getKepek().get(imageIndex)));
                         iv.setImage(kepkezelo.getKep(imageIndex));
                         //root.setCenter(iv);
                         preview.getChildren().clear();
@@ -147,7 +153,10 @@ public class Main extends Application {
                             HBox.setMargin(v, new Insets(0, 20, 0, 20));
                             preview.getChildren().add(v);
                         }
-                        root.setRight(transz.getUI(kepkezelo.getKepek().get(imageIndex)));
+                        root.setRight(transz.getUI(kepkezelo.getKepek().get(imageIndex), ((ev) -> {
+                            root.getChildren().remove(((Button)ev.getSource()).getParent());
+
+                        })));
                         //root.setBottom(preview);
                     });
                 }
