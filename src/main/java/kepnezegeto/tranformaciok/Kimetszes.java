@@ -1,5 +1,6 @@
 package kepnezegeto.tranformaciok;
 
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import kepnezegeto.kepKezelo.Kep;
 
@@ -10,8 +11,15 @@ public class Kimetszes implements Transzformacio{
     public String getNev() {
         return "Metszés";
     }
+
     @Override
-    public Image transzformal(Image kep) {
+    public Image transzformal(Kep kep) {
         return null;
     }
+
+    @Override
+    public Node getUI(Kep kep) {
+        return null;
+    }
+
 }

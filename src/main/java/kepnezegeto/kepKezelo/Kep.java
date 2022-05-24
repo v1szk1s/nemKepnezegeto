@@ -20,6 +20,10 @@ public class Kep{
         url = kep.getUrl();
         this.history = new Stack<>();
     }
+    public String getExtension(){
+        String[] tmp =  url.split("\\.");
+        return (tmp.length > 1) ? tmp[tmp.length-1] : "";
+    }
 
     public String getUrl() {
         return url;

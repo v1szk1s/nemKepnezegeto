@@ -1,5 +1,6 @@
 package kepnezegeto.tranformaciok;
 
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import kepnezegeto.kepKezelo.Kep;
@@ -14,15 +15,21 @@ public class Forgatas implements Transzformacio{
     public String getNev() {
         return "Forgatás";
     }
-    @Override
-    public Image transzformal(Image kep) {
 
-        ImageView imageView = new ImageView(kep);
+    @Override
+    public Image transzformal(Kep kep) {
+        ImageView imageView = new ImageView(kep.getImage());
         imageView.setRotate(90);
         return imageView.snapshot(null, null);
 
 
         //ImageView iv = new ImageView(kep);
-
     }
+
+    @Override
+    public Node getUI(Kep kep) {
+        return null;
+    }
+
+
 }

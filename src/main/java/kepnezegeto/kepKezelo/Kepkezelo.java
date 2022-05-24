@@ -10,7 +10,6 @@ import kepnezegeto.Main;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Kepkezelo {
@@ -54,10 +53,6 @@ public class Kepkezelo {
 
     }
 
-    public String getExtension(String url){
-        String[] tmp =  url.split("\\.");
-        return (tmp.length > 1) ? tmp[tmp.length-1] : "";
-    }
 
 
     public void save(int index, File file){
@@ -66,8 +61,8 @@ public class Kepkezelo {
         //BufferedImage imagem;
         //ImageIO.write(SwingFXUtils.fromFXImage(kepek.get(index), null), "png", new File(kepek.get(index).getUrl()));
             BufferedImage bImage = SwingFXUtils.fromFXImage(kepek.get(index).getImage(), null);
-            file = new File(file.getAbsolutePath() + "." + getExtension(kepek.get(index).getUrl()));
-            ImageIO.write(bImage, getExtension(kepek.get(index).getUrl()), file);
+            file = new File(file.getAbsolutePath() + "." + kepek.get(index).getExtension());
+            ImageIO.write(bImage, kepek.get(index).getExtension(), file);
         }catch(Exception err){
             Alert hiba = new Alert(AlertType.ERROR);
             hiba.setContentText("Nem sikerült elmenteni, valamiért." + err);

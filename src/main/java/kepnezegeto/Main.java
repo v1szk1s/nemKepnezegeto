@@ -139,7 +139,7 @@ public class Main extends Application {
                             history.push(kepkezelo.getKep(imageIndex));
                             undoMenuItem.setDisable(false);
                         }
-                        kepkezelo.set(imageIndex, transz.transzformal(kepkezelo.getKep(imageIndex)));
+                        kepkezelo.set(imageIndex, transz.transzformal(kepkezelo.getKepek().get(imageIndex)));
                         iv.setImage(kepkezelo.getKep(imageIndex));
                         //root.setCenter(iv);
                         preview.getChildren().clear();
@@ -147,6 +147,7 @@ public class Main extends Application {
                             HBox.setMargin(v, new Insets(0, 20, 0, 20));
                             preview.getChildren().add(v);
                         }
+                        root.setRight(transz.getUI(kepkezelo.getKepek().get(imageIndex)));
                         //root.setBottom(preview);
                     });
                 }
@@ -217,6 +218,7 @@ public class Main extends Application {
         }
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Mentés");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JPG/PNG fájlok (*.png, *.jpg)", "*.jpg", "*.JPG", "*.png", "*.PNG"));
         File outputFile = fileChooser.showSaveDialog(window);
 
         //BufferedImage bImage = SwingFXUtils.fromFXImage(iv.getImage(), null);
