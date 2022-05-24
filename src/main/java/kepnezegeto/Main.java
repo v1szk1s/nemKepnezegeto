@@ -59,7 +59,7 @@ public class Main extends Application {
         init(stage);
         root.setOnMouseClicked(e -> {
             if(e.getClickCount() == 2 && kepkezelo.getKepek().size() == 0){
-                openFile();
+                openFiles();
             }
         });;
 
@@ -76,18 +76,35 @@ public class Main extends Application {
         root.setRight(null);
         preview.getChildren().clear();
         undoMenuItem.setDisable(kepkezelo.getKepek().get(imageIndex).getHistory().size() == 0);
-        for(var v:kepkezelo.getPreviewek()){
+
+        int i = Math.max(0, imageIndex-3);
+        for(int j = 0; j < 6; j++, i++){
+            //ath.min(i+2, kepkezelo.getPreviewek().size())
+            if(i == kepkezelo.getPreviewek().size()){
+                break;
+            }
+
+            ImageView v = kepkezelo.getPreviewek().get(i);
+            if(i != imageIndex){
+                v.setOpacity(0.6);
+
+            }else{
+                v.setOpacity(1);
+            }
+
             preview.getChildren().add(v);
+            HBox.setMargin(v, new Insets(0, 20, 0, 20));
+            
         }
     }
 
     public void init(Stage window){
         fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG/PNG/GIF fájlok (*.png, *.jpg, *.gif)", "*.jpg", "*.JPG", "*.png", "*.PNG", "*.GIF", "*.gif"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG/PNG/GIF fájlok (*.png, *.jpg, *.gif)", "*.jpeg", "*.JPEG", "*.jpg", "*.JPG", "*.png", "*.PNG", "*.GIF", "*.gif"));
 
         iv.setPreserveRatio(true);
         iv.setFitWidth(1000);
-        iv.setFitHeight(580);
+        iv.setFitHeight(540);
 
         ArrayList<Transzformacio> transzformaciok = new ArrayList<>(); // itt lehetne megcsinalni azt, hogy kesobb be lehessen importalni
         transzformaciok.add(new Forgatas());
@@ -141,6 +158,7 @@ public class Main extends Application {
 
 
         Scene scene = new Scene(root, 1200, 750);
+        scene.getStylesheets().add("file:src/main/java/kepnezegeto/style/style.css");
         window.setTitle("Képnézegető");
         window.setResizable(false);
         window.setScene(scene);
@@ -157,7 +175,8 @@ public class Main extends Application {
         //     //root.setCenter(iv);
         //     refresh();
         // });
-
+        //style
+        //root.setStyle("-fx-background-color: BEIGE;");
 
         for (var item:transzMenu.getItems()){
             for(var transz:transzformaciok){
@@ -170,11 +189,7 @@ public class Main extends Application {
                             //kepkezelo.set(imageIndex, transz.transzformal(kepkezelo.getKepek().get(imageIndex)));
                             //iv.setImage(kepkezelo.getKep(imageIndex));
                             //root.setCenter(iv);
-                            preview.getChildren().clear();
-                            for(var v:kepkezelo.getPreviewek()){
-                                HBox.setMargin(v, new Insets(0, 20, 0, 20));
-                                preview.getChildren().add(v);
-                            }
+                            refresh();
 
                             root.setRight(transz.getUI(kepkezelo.getKepek().get(imageIndex), ((ev) -> {
 
@@ -204,11 +219,8 @@ public class Main extends Application {
                             kepkezelo.set(imageIndex, filter.filter(kepkezelo.getKep(imageIndex)));
                             iv.setImage(kepkezelo.getKep(imageIndex));
 
-                            preview.getChildren().clear();
-                            for(var v:kepkezelo.getPreviewek()){
-                                HBox.setMargin(v, new Insets(0, 20, 0, 20));
-                                preview.getChildren().add(v);
-                            }
+                            refresh();
+                            
                             root.setBottom(preview);
                         }
                       
@@ -223,7 +235,7 @@ public class Main extends Application {
 
         kepkezelo.getKepek().get(imageIndex).restore();
 
-        System.out.println(kepkezelo.getKepek().get(imageIndex).getHistory().size());
+        //System.out.println(kepkezelo.getKepek().get(imageIndex).getHistory().size());
         iv.setImage(kepkezelo.getKep(imageIndex));
         if(kepkezelo.getKepek().get(imageIndex).getHistory().size() <= 0){
             undoMenuItem.setDisable(true);

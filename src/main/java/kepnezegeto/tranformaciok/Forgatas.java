@@ -2,11 +2,13 @@ package kepnezegeto.tranformaciok;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import kepnezegeto.kepKezelo.Kep;
 
 
@@ -33,7 +35,8 @@ public class Forgatas implements Transzformacio {
         Button balButton = new Button("Balra");
         Button megseButton = new Button("Mégse");
 
-        GridPane root = new GridPane();
+        VBox root = new VBox(10);
+        GridPane.setMargin(megseButton, new Insets(10, 10, 10, 10));
         megseButton.setOnAction(eh);
         jobbButton.setOnAction(e -> {
             jobbra = true;
@@ -47,9 +50,7 @@ public class Forgatas implements Transzformacio {
             megseButton.fireEvent(e);
         });
 
-        root.add(balButton,0,0);
-        root.add(jobbButton, 1, 0);
-        root.add(megseButton, 0, 1);
+        root.getChildren().addAll(jobbButton, balButton, megseButton);
         return root;
     }
 

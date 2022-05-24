@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.transform.Rotate;
 import kepnezegeto.kepKezelo.Kep;
 import javafx.embed.swing.SwingFXUtils;
@@ -38,7 +39,7 @@ public class Tukrozes implements Transzformacio{
         Button yButton = new Button("Függőleges tükrözés");
         Button megseButton = new Button("Mégse");
 
-        GridPane root = new GridPane();
+        VBox root = new VBox();
         megseButton.setOnAction(eh);
         xButton.setOnAction(e -> {
             tukrozX = true;
@@ -52,9 +53,7 @@ public class Tukrozes implements Transzformacio{
             megseButton.fireEvent(e);
         });
 
-        root.add(xButton,0,0);
-        root.add(yButton, 1, 0);
-        root.add(megseButton, 0, 1);
+        root.getChildren().addAll(xButton, yButton, megseButton);
         return root;
     }
 

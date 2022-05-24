@@ -1,0 +1,15 @@
+.root{
+    -fx-background-color: BEIGE;
+}
+
+.button  
+{  
+    -fx-background-color:Black;   
+    -fx-font-family:courier_new;   
+    -fx-text-fill:White;  
+    -fx-border-color: none;  
+    -fx-padding: 5px;
+    /*-fx-border-insets: 5px;
+    //-fx-background-insets: 5px;*/
+
+}
