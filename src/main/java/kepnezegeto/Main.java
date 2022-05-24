@@ -27,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 import javax.imageio.*;
 import javax.swing.RootPaneContainer;
@@ -45,8 +46,8 @@ public class Main extends Application {
     private Scene scene;
     private MenuBar menuBar;
     private Menu fileMenu, transzMenu, filterMenu;
-    private static MenuItem openMenuItem, saveMenuItem, undoMenuItem;
-
+    private static MenuItem openFileMenuItem, saveMenuItem, undoMenuItem, openFilesMenuItem;
+    private Button right, left;
 
 
     @Override
@@ -65,6 +66,9 @@ public class Main extends Application {
 
     public static void setImageIndex(int index){
         imageIndex = index;
+        refresh();
+    }
+    public static void refresh(){
         iv.setImage(kepkezelo.getKep(imageIndex));
         root.setCenter(iv);
         preview.getChildren().clear();
@@ -77,7 +81,7 @@ public class Main extends Application {
     public void init(Stage window){
         iv.setPreserveRatio(true);
         iv.setFitWidth(1000);
-        iv.setFitHeight(600);
+        iv.setFitHeight(580);
 
         ArrayList<Transzformacio> transzformaciok = new ArrayList<>(); // itt lehetne megcsinalni azt, hogy kesobb be lehessen importalni
         transzformaciok.add(new Forgatas());
@@ -87,15 +91,17 @@ public class Main extends Application {
         filterek.add(new Grayscale());
         filterek.add(new Negativ());
         
+
         root = new BorderPane();
 
         menuBar = new MenuBar();
         fileMenu = new Menu("Fájl");
-        openMenuItem = new MenuItem("Megnyitás");
+        openFileMenuItem = new MenuItem("Kép megnyitása");
+        openFilesMenuItem = new MenuItem("Képek megnyitása");
         saveMenuItem = new MenuItem("Mentés");
         undoMenuItem = new MenuItem("Visszavonás");
         undoMenuItem.setDisable(true);
-        fileMenu.getItems().addAll(openMenuItem, saveMenuItem);
+        fileMenu.getItems().addAll(openFileMenuItem, openFilesMenuItem, saveMenuItem);
 
         transzMenu = new Menu("Szerkeszt");
         for(var t:transzformaciok){
@@ -107,7 +113,11 @@ public class Main extends Application {
         for(var t:filterek){
             filterMenu.getItems().add(new MenuItem(t.getNev()));
         }
-
+        //ImageView forgatKep = new ImageView(".");
+        ImageView forgatKep = new ImageView("file:src/main/java/kepnezegeto/images/forgat.png");
+        forgatKep.setFitHeight(22);
+        forgatKep.setFitWidth(22);
+ 
 
         menuBar.getMenus().addAll(fileMenu, transzMenu, filterMenu);
         root.setTop(menuBar);
@@ -121,15 +131,26 @@ public class Main extends Application {
         preview.setMinHeight(150);
         BorderPane.setMargin(preview, new Insets(10, 10, 10, 10));
 
+
         Scene scene = new Scene(root, 1200, 750);
         window.setTitle("Képnézegető");
         window.setResizable(false);
         window.setScene(scene);
         window.show();
 
-        openMenuItem.setOnAction(e -> openFile());
+        openFileMenuItem.setOnAction(e -> openFile());
+        openFilesMenuItem.setOnAction(e -> openFiles());      
         saveMenuItem.setOnAction(e -> saveFile());
         undoMenuItem.setOnAction(e -> undoAction());
+        // xd.setOnAction(e -> {
+        //     System.out.println("xd");
+        //     kepkezelo.set(imageIndex, transzformaciok.get(0).transzformal(kepkezelo.getKep(imageIndex)));
+        //     iv.setImage(kepkezelo.getKep(imageIndex));
+        //     //root.setCenter(iv);
+        //     refresh();
+        // });
+
+
         for (var item:transzMenu.getItems()){
             for(var transz:transzformaciok){
                 if(item.getText().equals(transz.getNev())){
@@ -142,12 +163,7 @@ public class Main extends Application {
                         kepkezelo.set(imageIndex, transz.transzformal(kepkezelo.getKep(imageIndex)));
                         iv.setImage(kepkezelo.getKep(imageIndex));
                         //root.setCenter(iv);
-                        preview.getChildren().clear();
-                        for(var v:kepkezelo.getPreviewek()){
-                            HBox.setMargin(v, new Insets(0, 20, 0, 20));
-                            preview.getChildren().add(v);
-                        }
-                        //root.setBottom(preview);
+                        refresh();
                     });
                 }
             }
@@ -165,12 +181,7 @@ public class Main extends Application {
                         kepkezelo.set(imageIndex, filter.filter(kepkezelo.getKep(imageIndex)));
                         iv.setImage(kepkezelo.getKep(imageIndex));
 
-                        preview.getChildren().clear();
-                        for(var v:kepkezelo.getPreviewek()){
-                            HBox.setMargin(v, new Insets(0, 20, 0, 20));
-                            preview.getChildren().add(v);
-                        }
-                        root.setBottom(preview);
+                       refresh();
                     });
                 }
             }
@@ -194,16 +205,33 @@ public class Main extends Application {
         File kep = fileChooser.showOpenDialog(window);
 
         if(kep != null){
+            //System.out.println(kep.toURI());
             kepkezelo.add(new Image(kep.toURI().toString()));
             imageIndex++;
             iv.setImage(kepkezelo.getKep(imageIndex));
             root.setCenter(iv);
-            preview.getChildren().clear();
-            for(var v:kepkezelo.getPreviewek()){
-                HBox.setMargin(v, new Insets(0, 20, 0, 20));
-                preview.getChildren().add(v);
-            }
             root.setBottom(preview);
+            refresh();
+
+        }
+    }
+
+    public void openFiles(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG/PNG fájlok (*.png, *.jpg)", "*.jpg", "*.JPG", "*.png", "*.PNG"));
+
+        fileChooser.setTitle("Képek megnyitása");
+        List<File> kepek = fileChooser.showOpenMultipleDialog(window);
+
+        if(kepek != null){
+            for(var v:kepek){
+                kepkezelo.add(new Image(v.toURI().toString()));
+                imageIndex++;
+            }
+            iv.setImage(kepkezelo.getKep(imageIndex));
+            root.setCenter(iv);
+            root.setBottom(preview);
+            refresh();
 
         }
     }
