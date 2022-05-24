@@ -1,10 +1,12 @@
 package kepnezegeto.kepKezelo;
 
 import javafx.embed.swing.SwingFXUtils;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import kepnezegeto.Main;
 
 import javax.imageio.ImageIO;
@@ -44,9 +46,10 @@ public class Kepkezelo {
     public void add(Image img){
         Kep kep = new Kep(img);
         kepek.add(kep);
-
-
+        HBox.setMargin(kep.getPreview(), new Insets(0, 10, 0, 10));
+        
         kep.getPreview().setOnMouseClicked(e -> {
+
             Main.setImageIndex(getPreviewek().indexOf(e.getTarget()));
 
         });

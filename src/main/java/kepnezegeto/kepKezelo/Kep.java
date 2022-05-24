@@ -1,6 +1,8 @@
 package kepnezegeto.kepKezelo;
+import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,10 +41,8 @@ public class Kep{
         return kep;
     }
     public void setImage(Image img){
-        if(history.size() < 10) {
-            history.push(kep);
 
-        }
+        history.push(kep);
         kep = img;
         preview.setImage(img);
     }
